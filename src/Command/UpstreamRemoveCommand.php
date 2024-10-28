@@ -12,7 +12,6 @@ use PantheonSystems\UpstreamManagement\UpstreamManagementTrait;
  */
 class UpstreamRemoveCommand extends RemoveCommand
 {
-
     use UpstreamManagementTrait;
 
     /**
@@ -31,7 +30,7 @@ class UpstreamRemoveCommand extends RemoveCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = $this->getIO();
         $composer = $this->getComposer();
