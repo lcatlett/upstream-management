@@ -3,12 +3,13 @@
 namespace PantheonSystems\UpstreamManagement\Command;
 
 use Composer\Command\BaseCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PantheonSystems\UpstreamManagement\UpstreamManagementTrait;
 
 /**
- * The "upstream:lock-dependencies" command.
+ * The "upstream:update-dependencies" command.
  */
 class UpstreamUpdateDependenciesCommand extends BaseCommand
 {
@@ -21,7 +22,8 @@ class UpstreamUpdateDependenciesCommand extends BaseCommand
     protected function configure()
     {
         $this
-            ->setName('upstream:lock-dependencies')
+            ->setName('upstream:update-dependencies')
+            ->addArgument('composer_args', InputArgument::IS_ARRAY, 'Optional aruments to pass to the Composer command.')
             ->setAliases(['lock-upstream-dependencies'])
             ->setDescription('Lock global upstream dependencies (when using pinned versions).')
             ->setHelp('Lock global pinned dependencies to the version currently in the upstream-configuration/composer.lock file.');
@@ -50,7 +52,8 @@ class UpstreamUpdateDependenciesCommand extends BaseCommand
         $this->ensureCoreRecommended();
 
         // Generate or update our upstream-configuration/composer.lock file.
-        passthru("composer --working-dir=upstream-configuration update --no-install", $statusCode);
+        $composerArgs = implode(' ', $input->getArgument('composer_args'));
+        passthru("composer --working-dir=upstream-configuration update --no-install $composerArgs", $statusCode);
         if ($statusCode) {
             throw new \RuntimeException("Could not update upstream dependencies.");
         }

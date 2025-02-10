@@ -33,10 +33,18 @@ Use it to remove dependencies in your upstream-configuration folder.
 composer upstream:remove drupal/ctools
 ```
 
-### upstream:lock-dependencies
+### upstream:update-dependencies
 
-Use it command to lock global pinned dependencies to the versions in the upstream-configuration/composer.lock file. This command will also update unpinned packages in the custom-upstream.
+Use this command to lock global pinned dependencies to the versions in the upstream-configuration/composer.lock file. This command will also update unpinned packages in the custom upstream.
 
 ```
-composer upstream:lock-dependencies
+composer upstream:update-dependencies [composer_args]
+```
+
+`composer_args` are optional arguments that can be passed to the Composer command.
+
+Example:
+
+```
+composer upstream:update-dependencies --prefer-dist
 ```
